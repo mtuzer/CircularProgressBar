@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     var timer = Timer()
     let label = UILabel()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,22 +29,17 @@ class ViewController: UIViewController {
         
         // add a tap recognizer to start the animation
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
-        
-        
-        
     }
     
     fileprivate func addTheLayer() {
         let circularPath = UIBezierPath(arcCenter: self.view.center, radius: 80, startAngle: -pi/2, endAngle: 3*pi/2, clockwise: true)
-        baseLayer.path = circularPath.cgPath
         
+        baseLayer.path = circularPath.cgPath
         baseLayer.strokeColor = UIColor.blue.cgColor
         baseLayer.lineWidth = 10
         baseLayer.lineCap = .round
-        
         baseLayer.fillColor = UIColor.clear.cgColor
         baseLayer.strokeEnd = 0
-        
         view.layer.addSublayer(baseLayer)
     }
     
@@ -59,20 +53,17 @@ class ViewController: UIViewController {
     }
     
     @objc func handleTap() {
-        
         handleAnimations()
         
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
     }
     
     @objc func updateTime() {
-        
         let value = self.baseLayer.presentation()?.value(forKeyPath: "strokeEnd") as! CGFloat
+       
         DispatchQueue.main.async {
             self.label.text = "\( Int(value*100) ) %"
         }
-        
     }
     
     fileprivate func handleAnimations() {
